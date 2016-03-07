@@ -10,3 +10,31 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+# vim generate files
+*.swp
+*.swo
+*.un*
+*~
+*.pyc
+*.pyo
+*.o
+*.lo
+*.la
+*.al
+*.so
+*.so.[0-9]*
+*.mo
+*.rej
+*.rdb
+*DS_Store
+
+# maven generate artifacts
+target/
+
+#eclipse generate files
+.project
+.classpath
+.settings/
+
+
