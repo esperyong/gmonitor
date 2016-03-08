@@ -31,6 +31,9 @@ public class AccountService implements UserDetailsService {
 	protected void initialize() {
 		save(new Account("user", "demo", "ROLE_USER"));
 		save(new Account("admin", "admin", "ROLE_ADMIN"));
+		for(int i=0;i<30;i++){
+			save(new Account("user" + i, "demo"+i, "ROLE_USER"));
+		}
 	}
 
 	@Transactional
