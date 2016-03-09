@@ -178,15 +178,65 @@ var QueryBoard = React.createClass({
     render: function() {
         return (
           <div className="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-              <ChartsPanel />
+              <ChartPanel />
               <QueryBar />
-              <SimpleResultTable />
+              <SimpleResultTable theads={['指标项','指标值','采集时间']} 
+                                 rowDatas={[
+                                    ['CPU','53.01%','2015-12-14 22:22:00'],
+                                    ['CPU','53.01%','2015-12-14 22:22:00'],
+                                    ['CPU','53.01%','2015-12-14 22:22:00'],
+                                    ['CPU','53.01%','2015-12-14 22:22:00'],
+                                    ['CPU','53.01%','2015-12-14 22:22:00'],
+                                    ['CPU','53.01%','2015-12-14 22:22:00'],
+                                    ['CPU','53.01%','2015-12-14 22:22:00'],
+                                    ['CPU','53.01%','2015-12-14 22:22:00'],
+                                 ]}
+              />
           </div>
         );
     }
 
 });
 
+var ChartPanel = React.createClass({
+
+    render: function() {
+
+          // 指定图表的配置项和数据
+          var chartConfigs = {
+              chartStyle: {width:"900", height:"600px"},
+              //className:"img-responsive",//can delete if required
+              title: {
+                  text: 'ECharts 入门示例'
+              },
+              tooltip: {},
+              legend: {
+                  data:['销量']
+              },
+              xAxis: {
+                  data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+              },
+              yAxis: {},
+              series: [{
+                  name: '销量',
+                  type: 'bar',
+                  data: [5, 20, 36, 10, 10, 20]
+              }]
+          };
+
+        return (
+          <div>
+          <h1 className="page-header">Dashboard</h1>
+          <div className="row placeholders">
+            <div className="col-xs-12 col-sm-6 placeholder">
+              <react_echarts.ECharts {...chartConfigs} />
+            </div>
+          </div>
+          </div>
+        );
+    }
+
+});
 
 var ChartsPanel = React.createClass({
 
@@ -247,10 +297,30 @@ var QueryBar = React.createClass({
 
     render: function() {
         return (
-          <h2 className="sub-header">Section title</h2>
+            <form className="form-inline sub-header">
+              <div className="form-group">
+                <label for="exampleInputName2">指标项：</label>
+                <select className="form-control">
+                    <option value="1">CPU</option>
+                    <option value="2">内存</option>
+                    <option value="3">GC</option>
+                </select>
+              </div>
+              &nbsp;
+              <div className="form-group">
+                <label for="exampleInputName2">开始时间：</label>
+                <input type="text" className="form-control" ref="startDate" placeholder="开始时间"/>
+              </div>
+              &nbsp;
+              <div className="form-group">
+                <label for="exampleInputEmail2">结束时间：</label>
+                <input type="email" className="form-control" ref="endDate" placeholder="结束时间"/>
+              </div>
+              &nbsp;
+              <button type="submit" className="btn btn-primary">查询</button>
+            </form>
         );
     }
-
 });
 
 var SimpleResultTableHead = React.createClass({
@@ -303,17 +373,8 @@ var SimpleResultTable = React.createClass({
 
           <div className="table-responsive">
             <table className="table table-striped">
-              <SimpleResultTableHead theads={['指标项','指标值','采集时间']} />
-              <SimpleResultTableBody rowDatas={[
-                  ['CPU','53.01%','2015-12-14 22:22:00'],
-                  ['CPU','53.01%','2015-12-14 22:22:00'],
-                  ['CPU','53.01%','2015-12-14 22:22:00'],
-                  ['CPU','53.01%','2015-12-14 22:22:00'],
-                  ['CPU','53.01%','2015-12-14 22:22:00'],
-                  ['CPU','53.01%','2015-12-14 22:22:00'],
-                  ['CPU','53.01%','2015-12-14 22:22:00'],
-                  ['CPU','53.01%','2015-12-14 22:22:00'],
-              ]} />
+              <SimpleResultTableHead theads={this.props.theads} />
+              <SimpleResultTableBody rowDatas={this.props.rowDatas} />
             </table>
           </div>
 
