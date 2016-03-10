@@ -82,7 +82,7 @@ var QueryBoardUI = React.createClass({
         return (
             <div>
                 <NavHeader />
-                <QueryBoardContent />
+                <BoardContent />
             </div>
         );
     }
@@ -122,14 +122,175 @@ var NavHeader = React.createClass({
 
 });
 
-var QueryBoardContent = React.createClass({
+var BoardContent = React.createClass({
 
     render: function() {
+
+          // 指定图表的配置项和数据
+          var chartConfig = {
+              chartStyle: {width:"900", height:"600px"},
+              //className:"img-responsive",//can delete if required
+              title: {
+                  text: 'ECharts 入门示例'
+              },
+              tooltip: {},
+              legend: {
+                  data:['销量']
+              },
+              xAxis: {
+                  data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+              },
+              yAxis: {},
+              series: [{
+                  name: '销量',
+                  type: 'bar',
+                  data: [5, 20, 36, 10, 10, 20]
+              }]
+          };
+
+          var chartConfigs = [
+              {
+                chartStyle: {width:"600px", height:"400px"},
+                className:"img-responsive",//can delete if required
+                title: {
+                    text: 'ECharts 入门示例'
+                },
+                tooltip: {},
+                legend: {
+                    data:['销量']
+                },
+                xAxis: {
+                    data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+                },
+                yAxis: {},
+                series: [{
+                    name: '销量',
+                    type: 'bar',
+                    data: [5, 20, 36, 10, 10, 20]
+                }]
+              },
+              {
+                chartStyle: {width:"600px", height:"400px"},
+                className:"img-responsive",//can delete if required
+                title: {
+                    text: 'ECharts 入门示例'
+                },
+                tooltip: {},
+                legend: {
+                    data:['销量']
+                },
+                xAxis: {
+                    data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+                },
+                yAxis: {},
+                series: [{
+                    name: '销量',
+                    type: 'bar',
+                    data: [5, 20, 36, 10, 10, 20]
+                }]
+              },
+
+              {
+                chartStyle: {width:"600px", height:"400px"},
+                className:"img-responsive",//can delete if required
+                title: {
+                    text: 'ECharts 入门示例'
+                },
+                tooltip: {},
+                legend: {
+                    data:['销量']
+                },
+                xAxis: {
+                    data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+                },
+                yAxis: {},
+                series: [{
+                    name: '销量',
+                    type: 'bar',
+                    data: [5, 20, 36, 10, 10, 20]
+                }]
+              },
+              {
+                chartStyle: {width:"600px", height:"400px"},
+                className:"img-responsive",//can delete if required
+                title: {
+                    text: 'ECharts 入门示例'
+                },
+                tooltip: {},
+                legend: {
+                    data:['销量']
+                },
+                xAxis: {
+                    data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+                },
+                yAxis: {},
+                series: [{
+                    name: '销量',
+                    type: 'bar',
+                    data: [5, 20, 36, 10, 10, 20]
+                }]
+              },
+
+              {
+                chartStyle: {width:"600px", height:"400px"},
+                className:"img-responsive",//can delete if required
+                title: {
+                    text: 'ECharts 入门示例'
+                },
+                tooltip: {},
+                legend: {
+                    data:['销量']
+                },
+                xAxis: {
+                    data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+                },
+                yAxis: {},
+                series: [{
+                    name: '销量',
+                    type: 'bar',
+                    data: [5, 20, 36, 10, 10, 20]
+                }]
+              },
+              {
+                chartStyle: {width:"600px", height:"400px"},
+                className:"img-responsive",//can delete if required
+                title: {
+                    text: 'ECharts 入门示例'
+                },
+                tooltip: {},
+                legend: {
+                    data:['销量']
+                },
+                xAxis: {
+                    data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+                },
+                yAxis: {},
+                series: [{
+                    name: '销量',
+                    type: 'bar',
+                    data: [5, 20, 36, 10, 10, 20]
+                }]
+              },
+          ];
+        var tableHeads = ['指标项','指标值','采集时间'];
+
+        var rowDatas = [
+                                    ['CPU','53.01%','2015-12-14 22:22:00'],
+                                    ['CPU','53.01%','2015-12-14 22:22:00'],
+                                    ['CPU','53.01%','2015-12-14 22:22:00'],
+                                    ['CPU','53.01%','2015-12-14 22:22:00'],
+                                    ['CPU','53.01%','2015-12-14 22:22:00'],
+                                    ['CPU','53.01%','2015-12-14 22:22:00'],
+                                    ['CPU','53.01%','2015-12-14 22:22:00'],
+                                    ['CPU','53.01%','2015-12-14 22:22:00'],
+                      ];
         return (
         <div className="container-fluid">
           <div className="row">
                 <SideBar />
-                <QueryBoard />
+                <DashBoard chartConfigs={ chartConfigs } />
+                <QueryBoard chartConfig={ chartConfig } tableHeads={tableHeads} rowDatas={ rowDatas } />
+
           </div>
         </div>
         );
@@ -313,25 +474,29 @@ var SideBar = React.createClass({
 
 });
 
-var QueryBoard = React.createClass({
+var DashBoard = React.createClass({
 
     render: function() {
         return (
           <div className="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-              <ChartPanel />
-              <QueryBar />
-              <SimpleResultTable theads={['指标项','指标值','采集时间']} 
-                                 rowDatas={[
-                                    ['CPU','53.01%','2015-12-14 22:22:00'],
-                                    ['CPU','53.01%','2015-12-14 22:22:00'],
-                                    ['CPU','53.01%','2015-12-14 22:22:00'],
-                                    ['CPU','53.01%','2015-12-14 22:22:00'],
-                                    ['CPU','53.01%','2015-12-14 22:22:00'],
-                                    ['CPU','53.01%','2015-12-14 22:22:00'],
-                                    ['CPU','53.01%','2015-12-14 22:22:00'],
-                                    ['CPU','53.01%','2015-12-14 22:22:00'],
-                                 ]}
-              />
+              <QueryBar  />
+              <ChartsPanel chartConfigs={this.props.chartConfigs} />
+          </div>
+        );
+    }
+
+});
+
+var QueryBoard = React.createClass({
+
+    render: function() {
+
+        return (
+          <div className="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+              <ChartPanel chartConfig={this.props.chartConfig} />
+              <QueryBar selectMetric={true}/>
+              <SimpleResultTable theads={this.props.tableHeads} 
+                                 rowDatas={this.props.rowDatas} />
           </div>
         );
     }
@@ -341,37 +506,13 @@ var QueryBoard = React.createClass({
 var ChartPanel = React.createClass({
 
     render: function() {
-
-          // 指定图表的配置项和数据
-          var chartConfigs = {
-              chartStyle: {width:"900", height:"600px"},
-              //className:"img-responsive",//can delete if required
-              title: {
-                  text: 'ECharts 入门示例'
-              },
-              tooltip: {},
-              legend: {
-                  data:['销量']
-              },
-              xAxis: {
-                  data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
-              },
-              yAxis: {},
-              series: [{
-                  name: '销量',
-                  type: 'bar',
-                  data: [5, 20, 36, 10, 10, 20]
-              }]
-          };
-
         return (
           <div>
-          <h1 className="page-header">Dashboard</h1>
-          <div className="row placeholders">
-            <div className="col-xs-12 col-sm-6 placeholder">
-              <react_echarts.ECharts {...chartConfigs} />
+            <div className="row placeholders">
+              <div className="col-xs-12 col-sm-6 placeholder">
+                <react_echarts.ECharts {...this.props.chartConfig} />
+              </div>
             </div>
-          </div>
           </div>
         );
     }
@@ -382,62 +523,28 @@ var ChartsPanel = React.createClass({
 
     render: function() {
 
-          // 指定图表的配置项和数据
-          var chartConfigs = {
-              chartStyle: {width:"600px", height:"400px"},
-              className:"img-responsive",//can delete if required
-              title: {
-                  text: 'ECharts 入门示例'
-              },
-              tooltip: {},
-              legend: {
-                  data:['销量']
-              },
-              xAxis: {
-                  data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
-              },
-              yAxis: {},
-              series: [{
-                  name: '销量',
-                  type: 'bar',
-                  data: [5, 20, 36, 10, 10, 20]
-              }]
-          };
+        var contents = [];
+        this.props.chartConfigs.forEach(function(chartConfig,index){
+                contents.push(
+                      <div className="col-xs-12 col-sm-6 placeholder">
+                          <react_echarts.ECharts {...chartConfig} />
+                      </div>
+                );
+        });
 
         return (
-          <div>
-          <h1 className="page-header">Dashboard</h1>
           <div className="row placeholders">
-            <div className="col-xs-6 col-sm-3 placeholder">
-              <react_echarts.ECharts {...chartConfigs} />
-            </div>
-            <div className="col-xs-6 col-sm-3 placeholder">
-              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" className="img-responsive" alt="Generic placeholder thumbnail"/>
-              <h4>Label</h4>
-              <span className="text-muted">Something else</span>
-            </div>
-            <div className="col-xs-6 col-sm-3 placeholder">
-              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" className="img-responsive" alt="Generic placeholder thumbnail"/>
-              <h4>Label</h4>
-              <span className="text-muted">Something else</span>
-            </div>
-            <div className="col-xs-6 col-sm-3 placeholder">
-              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" className="img-responsive" alt="Generic placeholder thumbnail"/>
-              <h4>Label</h4>
-              <span className="text-muted">Something else</span>
-            </div>
-          </div>
+            {contents}
           </div>
         );
     }
 
 });
 
-var QueryBar = React.createClass({
+var MetricSelect = React.createClass({
 
     render: function() {
         return (
-            <form className="form-inline sub-header">
               <div className="form-group">
                 <label>指标项：</label>
                 <select className="form-control">
@@ -446,6 +553,21 @@ var QueryBar = React.createClass({
                     <option value="3">GC</option>
                 </select>
               </div>
+        );
+    }
+
+});
+
+var QueryBar = React.createClass({
+
+    render: function() {
+        var metricSelect = null;
+        if(this.props.selectMetric){
+            metricSelect = <MetricSelect/>; 
+        }
+        return (
+            <form className="form-inline sub-header">
+              { metricSelect }
               &nbsp;
               <div className="form-group">
                 <label>开始时间：</label>
