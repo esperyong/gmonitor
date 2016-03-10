@@ -106,18 +106,14 @@ var NavHeader = React.createClass({
                     <span className="icon-bar"></span>
                     <span className="icon-bar"></span>
                   </button>
-                  <a className="navbar-brand" href="#">Project name</a>
+                  <a className="navbar-brand">Gmonitor</a>
                 </div>
                 <div id="navbar" className="navbar-collapse collapse">
                   <ul className="nav navbar-nav navbar-right">
-                    <li><a href="#">Dashboard</a></li>
-                    <li><a href="#">Settings</a></li>
-                    <li><a href="#">Profile</a></li>
-                    <li><a href="#">Help</a></li>
+                    <li></li>
+                    <li><a>欢迎：某某人</a></li>
+                    <li><a href="#">注销</a></li>
                   </ul>
-                  <form className="navbar-form navbar-right">
-                    <input type="text" className="form-control" placeholder="Search..."/>
-                  </form>
                 </div>
               </div>
             </nav>
@@ -154,22 +150,26 @@ var AccordionMenu = React.createClass({
         return text;
     },
 
+    handleClick: function(e){
+        this.props.handleClick(e);
+    },
+
     render: function() {
 
 
         var submenus = [];
 
         this.props.menudata.submenus.forEach(function(submenu){
-            if(submenu.hasOwnProperty("submenus")){
-                submenus.push(<AccordionMenu menudata={submenu} />);
+            if(submenu.hasOwnProperty("submenus") && submenu.submenus.length > 0){
+                submenus.push(<AccordionMenu handleClick={this.props.handleClick} menudata={submenu} />);
             }
-        });
+        }.bind(this));
 
         if(submenus.length == 0){
             var smenus = [];
             this.props.menudata.submenus.forEach(function(submenu){
-                smenus.push(<li><a href="#">{submenu.name}</a></li>); 
-            });
+                smenus.push(<li><a onClick={this.props.handleClick}>{submenu.name}</a></li>); 
+            }.bind(this));
             
             submenus = (
                   <ul className="nav nav-sidebar">
@@ -188,9 +188,10 @@ var AccordionMenu = React.createClass({
 
     <div className="panel-heading">
         <h4 className="panel-title">
-            <a className="accordion-toggle collapsed" 
+            <a className="accordion-toggle collapsed"
                data-toggle="collapse" 
                data-parent={"#"+menuid}
+               onClick={this.props.handleClick}
                href={"#"+collapseid}>
                {this.props.menudata.name}
             </a>
@@ -215,6 +216,14 @@ var AccordionMenu = React.createClass({
 
 
 var SideBar = React.createClass({
+
+    handleMenuItemClick: function(e){
+        console.log('handleMenuItemClick====>', e.target);
+        if(!$(e.target).hasClass("accordion-toggle")){
+            //$(e.target).css({"background-color":"#8dd7f9"});
+        }
+    },
+
     render: function() {
         var menudatas = [
         {
@@ -223,10 +232,10 @@ var SideBar = React.createClass({
             {
              name:'Locators',
              submenus:[
-                 {name:'Locator1'},
-                 {name:'Locator2'},
-                 {name:'Locator3'},
-                 {name:'Locator4'},
+                 {name:'Locator1',submenus:[]},
+                 {name:'Locator2',submenus:[]},
+                 {name:'Locator3',submenus:[]},
+                 {name:'Locator4',submenus:[]},
              ],
             },
             {
@@ -290,8 +299,8 @@ var SideBar = React.createClass({
 
         var menus = [];
         menudatas.forEach(function(menudata){
-            menus.push(<AccordionMenu menudata={menudata} />);
-        }); 
+            menus.push(<AccordionMenu handleClick={this.handleMenuItemClick} menudata={menudata} />);
+        }.bind(this)); 
 
         return (
 <div className="col-sm-3 col-md-2 sidebar">
