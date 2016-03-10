@@ -141,33 +141,164 @@ var QueryBoardContent = React.createClass({
 
 });
 
+var AccordionMenu = React.createClass({
+
+
+    makeid: function(length) {
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    
+        for( var i=0; i < length; i++ )
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+    
+        return text;
+    },
+
+    render: function() {
+
+
+        var submenus = [];
+
+        this.props.menudata.submenus.forEach(function(submenu){
+            if(submenu.hasOwnProperty("submenus")){
+                submenus.push(<AccordionMenu menudata={submenu} />);
+            }
+        });
+
+        if(submenus.length == 0){
+            var smenus = [];
+            this.props.menudata.submenus.forEach(function(submenu){
+                smenus.push(<li><a href="#">{submenu.name}</a></li>); 
+            });
+            
+            submenus = (
+                  <ul className="nav nav-sidebar">
+                     {smenus} 
+                  </ul>
+            );
+        }
+
+        var menuid = "menu-" + this.makeid(5);
+        var collapseid = "collapse-" + this.makeid(5);
+
+        return (
+<div className="panel-group" id={menuid}>
+
+  <div className="panel panel-default">
+
+    <div className="panel-heading">
+        <h4 className="panel-title">
+            <a className="accordion-toggle collapsed" 
+               data-toggle="collapse" 
+               data-parent={"#"+menuid}
+               href={"#"+collapseid}>
+               {this.props.menudata.name}
+            </a>
+        </h4>
+    </div>
+
+    <div className="panel-collapse collapse" id={collapseid}>
+
+      <div className="panel-body">
+          {submenus}
+      </div>
+
+    </div>
+
+  </div>
+</div>
+        );
+    }
+
+});
+
+
+
 var SideBar = React.createClass({
     render: function() {
+        var menudatas = [
+        {
+          name:'个人网银/集群',
+          submenus:[
+            {
+             name:'Locators',
+             submenus:[
+                 {name:'Locator1'},
+                 {name:'Locator2'},
+                 {name:'Locator3'},
+                 {name:'Locator4'},
+             ],
+            },
+            {
+             name:'CacheServers',
+             submenus:[
+                 {name:'CacheServers1'},
+                 {name:'CacheServers2'},
+                 {name:'CacheServers3'},
+                 {name:'CacheServers4'},
+             ],
+            },
+          ],
+        },
+        {
+          name:'参数集群',
+          submenus:[
+            {
+             name:'Locators',
+             submenus:[
+                 {name:'Locator1'},
+                 {name:'Locator2'},
+                 {name:'Locator3'},
+                 {name:'Locator4'},
+             ],
+            },
+            {
+             name:'CacheServers',
+             submenus:[
+                 {name:'CacheServers1'},
+                 {name:'CacheServers2'},
+                 {name:'CacheServers3'},
+                 {name:'CacheServers4'},
+             ],
+            },
+          ],
+        },
+        {
+          name:'企业集群',
+          submenus:[
+            {
+             name:'Locators',
+             submenus:[
+                 {name:'Locator1'},
+                 {name:'Locator2'},
+                 {name:'Locator3'},
+                 {name:'Locator4'},
+             ],
+            },
+            {
+             name:'CacheServers',
+             submenus:[
+                 {name:'CacheServers1'},
+                 {name:'CacheServers2'},
+                 {name:'CacheServers3'},
+                 {name:'CacheServers4'},
+             ],
+            },
+          ],
+        },
+    ];
+
+        var menus = [];
+        menudatas.forEach(function(menudata){
+            menus.push(<AccordionMenu menudata={menudata} />);
+        }); 
+
         return (
-        <div className="col-sm-3 col-md-2 sidebar">
-          <ul className="nav nav-sidebar">
-            <li className="active">
-                <a href="#">
-                    Overview <span className="sr-only">(current)</span>
-                </a>
-            </li>
-            <li><a href="#">Reports</a></li>
-            <li><a href="#">Analytics</a></li>
-            <li><a href="#">Export</a></li>
-          </ul>
-          <ul className="nav nav-sidebar">
-            <li><a href="">Nav item</a></li>
-            <li><a href="">Nav item again</a></li>
-            <li><a href="">One more nav</a></li>
-            <li><a href="">Another nav item</a></li>
-            <li><a href="">More navigation</a></li>
-          </ul>
-          <ul className="nav nav-sidebar">
-            <li><a href="">Nav item again</a></li>
-            <li><a href="">One more nav</a></li>
-            <li><a href="">Another nav item</a></li>
-          </ul>
-        </div>
+<div className="col-sm-3 col-md-2 sidebar">
+  <ul className="nav nav-sidebar">
+      {menus}
+  </ul>
+</div>
         );
     }
 
@@ -299,7 +430,7 @@ var QueryBar = React.createClass({
         return (
             <form className="form-inline sub-header">
               <div className="form-group">
-                <label for="exampleInputName2">指标项：</label>
+                <label>指标项：</label>
                 <select className="form-control">
                     <option value="1">CPU</option>
                     <option value="2">内存</option>
@@ -308,12 +439,12 @@ var QueryBar = React.createClass({
               </div>
               &nbsp;
               <div className="form-group">
-                <label for="exampleInputName2">开始时间：</label>
+                <label>开始时间：</label>
                 <input type="text" className="form-control" ref="startDate" placeholder="开始时间"/>
               </div>
               &nbsp;
               <div className="form-group">
-                <label for="exampleInputEmail2">结束时间：</label>
+                <label>结束时间：</label>
                 <input type="email" className="form-control" ref="endDate" placeholder="结束时间"/>
               </div>
               &nbsp;
