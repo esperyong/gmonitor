@@ -73,33 +73,39 @@ var react_echarts = {};
 })(react_echarts);
 
 var NavHeader = React.createClass({
+    
 
     render: function() {
         return (
-            <nav className="navbar navbar-inverse navbar-fixed-top">
-              <div className="container-fluid">
-                <div className="navbar-header">
-                  <button type="button" className="navbar-toggle collapsed" 
-                          data-toggle="collapse" 
-                          data-target="#navbar" 
-                          aria-expanded="false" 
-                          aria-controls="navbar">
-                    <span className="sr-only">Toggle navigation</span>
-                    <span className="icon-bar"></span>
-                    <span className="icon-bar"></span>
-                    <span className="icon-bar"></span>
-                  </button>
-                  <a className="navbar-brand">Gmonitor</a>
-                </div>
-                <div id="navbar" className="navbar-collapse collapse">
-                  <ul className="nav navbar-nav navbar-right">
-                    <li></li>
-                    <li><a>欢迎：某某人</a></li>
-                    <li><a href="#">注销</a></li>
-                  </ul>
-                </div>
-              </div>
-            </nav>
+
+    <nav className="navbar navbar-inverse navbar-fixed-top">
+      <div className="container-fluid">
+        <div className="navbar-header">
+          <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span className="sr-only">Toggle navigation</span>
+            <span className="icon-bar"></span>
+            <span className="icon-bar"></span>
+            <span className="icon-bar"></span>
+          </button>
+          <a className="navbar-brand" href="#">Gmonitor</a>
+        </div>
+        <div id="navbar" className="collapse navbar-collapse">
+          <ul className="nav navbar-nav">
+            <li className={this.props.currentContent == 'dashboard' ? 'active' : ''}>
+                <a href="/dashboard">Dashboard</a>
+            </li>
+            <li className={this.props.currentContent == 'queryBoard' ? 'active' : ''}>
+                <a href="/metric-query">分享查询</a>
+            </li>
+          </ul>
+          <ul className="nav navbar-nav navbar-right">
+            <li></li>
+            <li><a>欢迎：{this.props.currentUser.name}</a></li>
+            <li><a href="#">注销</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
         );
     }
 
@@ -515,9 +521,14 @@ var QueryBoardUI = React.createClass({
                                     ['CPU','53.01%','2015-12-14 22:22:00'],
                                     ['CPU','53.01%','2015-12-14 22:22:00'],
                       ];
+      var currentUser = {
+          id: 'liuyong',
+          name: '刘勇',
+          role: 'ADMIN',
+      };
         return (
             <div>
-                <NavHeader />
+                <NavHeader currentUser={ currentUser } currentContent='queryBoard' />
                 <BoardContent boardType='queryBoard' 
                     chartConfig={chartConfig} 
                     tableHeads={tableHeads} 
@@ -655,9 +666,16 @@ var DashBoardUI = React.createClass({
             }]
           },
       ];
+
+      var currentUser = {
+          id: 'liuyong',
+          name: '刘勇',
+          role: 'ADMIN',
+      };
+
         return (
             <div>
-                <NavHeader />
+                <NavHeader currentUser={ currentUser } currentContent='dashboard' />
                 <BoardContent boardType='dashboard' chartConfigs={chartConfigs} />
             </div>
         );
