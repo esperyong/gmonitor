@@ -2,9 +2,6 @@ var react_echarts = {};
 
 (function (ns) {
 
-    //private scoping
-    var global;
-
     ns.ECharts = React.createClass({
 
         displayName: "ECharts",
@@ -75,20 +72,6 @@ var react_echarts = {};
 
 })(react_echarts);
 
-
-var QueryBoardUI = React.createClass({
-
-    render: function() {
-        return (
-            <div>
-                <NavHeader />
-                <BoardContent />
-            </div>
-        );
-    }
-
-});
-
 var NavHeader = React.createClass({
 
     render: function() {
@@ -126,171 +109,18 @@ var BoardContent = React.createClass({
 
     render: function() {
 
-          // 指定图表的配置项和数据
-          var chartConfig = {
-              chartStyle: {width:"900", height:"600px"},
-              //className:"img-responsive",//can delete if required
-              title: {
-                  text: 'ECharts 入门示例'
-              },
-              tooltip: {},
-              legend: {
-                  data:['销量']
-              },
-              xAxis: {
-                  data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
-              },
-              yAxis: {},
-              series: [{
-                  name: '销量',
-                  type: 'bar',
-                  data: [5, 20, 36, 10, 10, 20]
-              }]
-          };
 
-          var chartConfigs = [
-              {
-                chartStyle: {width:"600px", height:"400px"},
-                className:"img-responsive",//can delete if required
-                title: {
-                    text: 'ECharts 入门示例'
-                },
-                tooltip: {},
-                legend: {
-                    data:['销量']
-                },
-                xAxis: {
-                    data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
-                },
-                yAxis: {},
-                series: [{
-                    name: '销量',
-                    type: 'bar',
-                    data: [5, 20, 36, 10, 10, 20]
-                }]
-              },
-              {
-                chartStyle: {width:"600px", height:"400px"},
-                className:"img-responsive",//can delete if required
-                title: {
-                    text: 'ECharts 入门示例'
-                },
-                tooltip: {},
-                legend: {
-                    data:['销量']
-                },
-                xAxis: {
-                    data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
-                },
-                yAxis: {},
-                series: [{
-                    name: '销量',
-                    type: 'bar',
-                    data: [5, 20, 36, 10, 10, 20]
-                }]
-              },
-
-              {
-                chartStyle: {width:"600px", height:"400px"},
-                className:"img-responsive",//can delete if required
-                title: {
-                    text: 'ECharts 入门示例'
-                },
-                tooltip: {},
-                legend: {
-                    data:['销量']
-                },
-                xAxis: {
-                    data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
-                },
-                yAxis: {},
-                series: [{
-                    name: '销量',
-                    type: 'bar',
-                    data: [5, 20, 36, 10, 10, 20]
-                }]
-              },
-              {
-                chartStyle: {width:"600px", height:"400px"},
-                className:"img-responsive",//can delete if required
-                title: {
-                    text: 'ECharts 入门示例'
-                },
-                tooltip: {},
-                legend: {
-                    data:['销量']
-                },
-                xAxis: {
-                    data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
-                },
-                yAxis: {},
-                series: [{
-                    name: '销量',
-                    type: 'bar',
-                    data: [5, 20, 36, 10, 10, 20]
-                }]
-              },
-
-              {
-                chartStyle: {width:"600px", height:"400px"},
-                className:"img-responsive",//can delete if required
-                title: {
-                    text: 'ECharts 入门示例'
-                },
-                tooltip: {},
-                legend: {
-                    data:['销量']
-                },
-                xAxis: {
-                    data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
-                },
-                yAxis: {},
-                series: [{
-                    name: '销量',
-                    type: 'bar',
-                    data: [5, 20, 36, 10, 10, 20]
-                }]
-              },
-              {
-                chartStyle: {width:"600px", height:"400px"},
-                className:"img-responsive",//can delete if required
-                title: {
-                    text: 'ECharts 入门示例'
-                },
-                tooltip: {},
-                legend: {
-                    data:['销量']
-                },
-                xAxis: {
-                    data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
-                },
-                yAxis: {},
-                series: [{
-                    name: '销量',
-                    type: 'bar',
-                    data: [5, 20, 36, 10, 10, 20]
-                }]
-              },
-          ];
-        var tableHeads = ['指标项','指标值','采集时间'];
-
-        var rowDatas = [
-                                    ['CPU','53.01%','2015-12-14 22:22:00'],
-                                    ['CPU','53.01%','2015-12-14 22:22:00'],
-                                    ['CPU','53.01%','2015-12-14 22:22:00'],
-                                    ['CPU','53.01%','2015-12-14 22:22:00'],
-                                    ['CPU','53.01%','2015-12-14 22:22:00'],
-                                    ['CPU','53.01%','2015-12-14 22:22:00'],
-                                    ['CPU','53.01%','2015-12-14 22:22:00'],
-                                    ['CPU','53.01%','2015-12-14 22:22:00'],
-                      ];
+        var content = null;
+        if(this.props.boardType == 'dashboard'){
+            content = <DashBoard chartConfigs={ this.props.chartConfigs } />;
+        }else{
+            content = <QueryBoard chartConfig={ this.props.chartConfig } tableHeads={this.props.tableHeads} rowDatas={ this.props.rowDatas } />;
+        }
         return (
         <div className="container-fluid">
           <div className="row">
                 <SideBar />
-                <DashBoard chartConfigs={ chartConfigs } />
-                <QueryBoard chartConfig={ chartConfig } tableHeads={tableHeads} rowDatas={ rowDatas } />
-
+                { content }
           </div>
         </div>
         );
@@ -645,9 +475,208 @@ var SimpleResultTable = React.createClass({
 
 });
 
-ReactDOM.render(
-  <QueryBoardUI />,
-  document.getElementById('content')
-);
+
+
+var QueryBoardUI = React.createClass({
+
+    render: function() {
+      // 指定图表的配置项和数据
+      var chartConfig = {
+          chartStyle: {width:"900", height:"600px"},
+          //className:"img-responsive",//can delete if required
+          title: {
+              text: 'ECharts 入门示例'
+          },
+          tooltip: {},
+          legend: {
+              data:['销量']
+          },
+          xAxis: {
+              data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+          },
+          yAxis: {},
+          series: [{
+              name: '销量',
+              type: 'bar',
+              data: [5, 20, 36, 10, 10, 20]
+          }]
+      };
+
+
+      var tableHeads = ['指标项','指标值','采集时间'];
+
+      var rowDatas = [
+                                    ['CPU','53.01%','2015-12-14 22:22:00'],
+                                    ['CPU','53.01%','2015-12-14 22:22:00'],
+                                    ['CPU','53.01%','2015-12-14 22:22:00'],
+                                    ['CPU','53.01%','2015-12-14 22:22:00'],
+                                    ['CPU','53.01%','2015-12-14 22:22:00'],
+                                    ['CPU','53.01%','2015-12-14 22:22:00'],
+                                    ['CPU','53.01%','2015-12-14 22:22:00'],
+                                    ['CPU','53.01%','2015-12-14 22:22:00'],
+                      ];
+        return (
+            <div>
+                <NavHeader />
+                <BoardContent boardType='queryBoard' 
+                    chartConfig={chartConfig} 
+                    tableHeads={tableHeads} 
+                    rowDatas={rowDatas} />
+            </div>
+        );
+    }
+
+});
+
+var DashBoardUI = React.createClass({
+
+    render: function() {
+      var chartConfigs = [
+          {
+            chartStyle: {width:"600px", height:"400px"},
+            className:"img-responsive",//can delete if required
+            title: {
+                text: 'ECharts 入门示例'
+            },
+            tooltip: {},
+            legend: {
+                data:['销量']
+            },
+            xAxis: {
+                data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+            },
+            yAxis: {},
+            series: [{
+                name: '销量',
+                type: 'bar',
+                data: [5, 20, 36, 10, 10, 20]
+            }]
+          },
+          {
+            chartStyle: {width:"600px", height:"400px"},
+            className:"img-responsive",//can delete if required
+            title: {
+                text: 'ECharts 入门示例'
+            },
+            tooltip: {},
+            legend: {
+                data:['销量']
+            },
+            xAxis: {
+                data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+            },
+            yAxis: {},
+            series: [{
+                name: '销量',
+                type: 'bar',
+                data: [5, 20, 36, 10, 10, 20]
+            }]
+          },
+
+          {
+            chartStyle: {width:"600px", height:"400px"},
+            className:"img-responsive",//can delete if required
+            title: {
+                text: 'ECharts 入门示例'
+            },
+            tooltip: {},
+            legend: {
+                data:['销量']
+            },
+            xAxis: {
+                data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+            },
+            yAxis: {},
+            series: [{
+                name: '销量',
+                type: 'bar',
+                data: [5, 20, 36, 10, 10, 20]
+            }]
+          },
+          {
+            chartStyle: {width:"600px", height:"400px"},
+            className:"img-responsive",//can delete if required
+            title: {
+                text: 'ECharts 入门示例'
+            },
+            tooltip: {},
+            legend: {
+                data:['销量']
+            },
+            xAxis: {
+                data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+            },
+            yAxis: {},
+            series: [{
+                name: '销量',
+                type: 'bar',
+                data: [5, 20, 36, 10, 10, 20]
+            }]
+          },
+
+          {
+            chartStyle: {width:"600px", height:"400px"},
+            className:"img-responsive",//can delete if required
+            title: {
+                text: 'ECharts 入门示例'
+            },
+            tooltip: {},
+            legend: {
+                data:['销量']
+            },
+            xAxis: {
+                data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+            },
+            yAxis: {},
+            series: [{
+                name: '销量',
+                type: 'bar',
+                data: [5, 20, 36, 10, 10, 20]
+            }]
+          },
+          {
+            chartStyle: {width:"600px", height:"400px"},
+            className:"img-responsive",//can delete if required
+            title: {
+                text: 'ECharts 入门示例'
+            },
+            tooltip: {},
+            legend: {
+                data:['销量']
+            },
+            xAxis: {
+                data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+            },
+            yAxis: {},
+            series: [{
+                name: '销量',
+                type: 'bar',
+                data: [5, 20, 36, 10, 10, 20]
+            }]
+          },
+      ];
+        return (
+            <div>
+                <NavHeader />
+                <BoardContent boardType='dashboard' chartConfigs={chartConfigs} />
+            </div>
+        );
+    }
+
+});
+
+if ( $('#queryboard-content').length > 0 ){
+    ReactDOM.render(
+      <QueryBoardUI />,
+      document.getElementById('queryboard-content')
+    );
+
+}else if($('#dashboard-content').length > 0){
+    ReactDOM.render(
+      <DashBoardUI />,
+      document.getElementById('dashboard-content')
+    );
+}
+
 
 
