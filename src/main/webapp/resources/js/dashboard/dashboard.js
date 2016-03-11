@@ -115,7 +115,6 @@ var BoardContent = React.createClass({
 
     render: function() {
 
-
         var content = null;
         if(this.props.boardType == 'dashboard'){
             content = <DashBoard chartConfigs={ this.props.chartConfigs } />;
@@ -125,7 +124,7 @@ var BoardContent = React.createClass({
         return (
         <div className="container-fluid">
           <div className="row">
-                <SideBar />
+                <SideBar menudatas={this.props.menudatas} />
                 { content }
           </div>
         </div>
@@ -165,7 +164,7 @@ var AccordionMenu = React.createClass({
         if(submenus.length == 0){
             var smenus = [];
             this.props.menudata.submenus.forEach(function(submenu){
-                smenus.push(<li><a onClick={this.props.handleClick}>{submenu.name}</a></li>); 
+                smenus.push(<li><a href='#' onClick={this.props.handleClick}>{submenu.name}</a></li>); 
             }.bind(this));
             
             submenus = (
@@ -215,87 +214,16 @@ var AccordionMenu = React.createClass({
 var SideBar = React.createClass({
 
     handleMenuItemClick: function(e){
-        console.log('handleMenuItemClick====>', e.target);
+        e.preventDefault();
         if(!$(e.target).hasClass("accordion-toggle")){
             //$(e.target).css({"background-color":"#8dd7f9"});
         }
     },
 
     render: function() {
-        var menudatas = [
-        {
-          name:'个人网银/集群',
-          submenus:[
-            {
-             name:'Locators',
-             submenus:[
-                 {name:'Locator1',submenus:[]},
-                 {name:'Locator2',submenus:[]},
-                 {name:'Locator3',submenus:[]},
-                 {name:'Locator4',submenus:[]},
-             ],
-            },
-            {
-             name:'CacheServers',
-             submenus:[
-                 {name:'CacheServers1'},
-                 {name:'CacheServers2'},
-                 {name:'CacheServers3'},
-                 {name:'CacheServers4'},
-             ],
-            },
-          ],
-        },
-        {
-          name:'参数集群',
-          submenus:[
-            {
-             name:'Locators',
-             submenus:[
-                 {name:'Locator1'},
-                 {name:'Locator2'},
-                 {name:'Locator3'},
-                 {name:'Locator4'},
-             ],
-            },
-            {
-             name:'CacheServers',
-             submenus:[
-                 {name:'CacheServers1'},
-                 {name:'CacheServers2'},
-                 {name:'CacheServers3'},
-                 {name:'CacheServers4'},
-             ],
-            },
-          ],
-        },
-        {
-          name:'企业集群',
-          submenus:[
-            {
-             name:'Locators',
-             submenus:[
-                 {name:'Locator1'},
-                 {name:'Locator2'},
-                 {name:'Locator3'},
-                 {name:'Locator4'},
-             ],
-            },
-            {
-             name:'CacheServers',
-             submenus:[
-                 {name:'CacheServers1'},
-                 {name:'CacheServers2'},
-                 {name:'CacheServers3'},
-                 {name:'CacheServers4'},
-             ],
-            },
-          ],
-        },
-    ];
 
         var menus = [];
-        menudatas.forEach(function(menudata){
+        this.props.menudatas.forEach(function(menudata){
             menus.push(<AccordionMenu handleClick={this.handleMenuItemClick} menudata={menudata} />);
         }.bind(this)); 
 
@@ -415,7 +343,7 @@ var QueryBar = React.createClass({
                 <input type="email" className="form-control" ref="endDate" placeholder="结束时间"/>
               </div>
               &nbsp;
-              <button type="submit" className="btn btn-primary">查询</button>
+              <button type="button" className="btn btn-primary">查询</button>
             </form>
         );
     }
@@ -486,6 +414,77 @@ var SimpleResultTable = React.createClass({
 var QueryBoardUI = React.createClass({
 
     render: function() {
+        var menudatas = [
+        {
+          name:'个人网银/集群',
+          submenus:[
+            {
+             name:'Locators',
+             submenus:[
+                 {name:'Locator1',submenus:[]},
+                 {name:'Locator2',submenus:[]},
+                 {name:'Locator3',submenus:[]},
+                 {name:'Locator4',submenus:[]},
+             ],
+            },
+            {
+             name:'CacheServers',
+             submenus:[
+                 {name:'CacheServers1'},
+                 {name:'CacheServers2'},
+                 {name:'CacheServers3'},
+                 {name:'CacheServers4'},
+             ],
+            },
+          ],
+        },
+        {
+          name:'参数集群',
+          submenus:[
+            {
+             name:'Locators',
+             submenus:[
+                 {name:'Locator1'},
+                 {name:'Locator2'},
+                 {name:'Locator3'},
+                 {name:'Locator4'},
+             ],
+            },
+            {
+             name:'CacheServers',
+             submenus:[
+                 {name:'CacheServers1'},
+                 {name:'CacheServers2'},
+                 {name:'CacheServers3'},
+                 {name:'CacheServers4'},
+             ],
+            },
+          ],
+        },
+        {
+          name:'企业集群',
+          submenus:[
+            {
+             name:'Locators',
+             submenus:[
+                 {name:'Locator1'},
+                 {name:'Locator2'},
+                 {name:'Locator3'},
+                 {name:'Locator4'},
+             ],
+            },
+            {
+             name:'CacheServers',
+             submenus:[
+                 {name:'CacheServers1'},
+                 {name:'CacheServers2'},
+                 {name:'CacheServers3'},
+                 {name:'CacheServers4'},
+             ],
+            },
+          ],
+        },
+    ];
       // 指定图表的配置项和数据
       var chartConfig = {
           chartStyle: {width:"900", height:"600px"},
@@ -530,6 +529,7 @@ var QueryBoardUI = React.createClass({
             <div>
                 <NavHeader currentUser={ currentUser } currentContent='queryBoard' />
                 <BoardContent boardType='queryBoard' 
+                    menudatas={ menudatas } 
                     chartConfig={chartConfig} 
                     tableHeads={tableHeads} 
                     rowDatas={rowDatas} />
@@ -542,6 +542,78 @@ var QueryBoardUI = React.createClass({
 var DashBoardUI = React.createClass({
 
     render: function() {
+
+        var menudatas = [
+        {
+          name:'个人网银/集群',
+          submenus:[
+            {
+             name:'Locators',
+             submenus:[
+                 {name:'Locator1',submenus:[]},
+                 {name:'Locator2',submenus:[]},
+                 {name:'Locator3',submenus:[]},
+                 {name:'Locator4',submenus:[]},
+             ],
+            },
+            {
+             name:'CacheServers',
+             submenus:[
+                 {name:'CacheServers1'},
+                 {name:'CacheServers2'},
+                 {name:'CacheServers3'},
+                 {name:'CacheServers4'},
+             ],
+            },
+          ],
+        },
+        {
+          name:'参数集群',
+          submenus:[
+            {
+             name:'Locators',
+             submenus:[
+                 {name:'Locator1'},
+                 {name:'Locator2'},
+                 {name:'Locator3'},
+                 {name:'Locator4'},
+             ],
+            },
+            {
+             name:'CacheServers',
+             submenus:[
+                 {name:'CacheServers1'},
+                 {name:'CacheServers2'},
+                 {name:'CacheServers3'},
+                 {name:'CacheServers4'},
+             ],
+            },
+          ],
+        },
+        {
+          name:'企业集群',
+          submenus:[
+            {
+             name:'Locators',
+             submenus:[
+                 {name:'Locator1'},
+                 {name:'Locator2'},
+                 {name:'Locator3'},
+                 {name:'Locator4'},
+             ],
+            },
+            {
+             name:'CacheServers',
+             submenus:[
+                 {name:'CacheServers1'},
+                 {name:'CacheServers2'},
+                 {name:'CacheServers3'},
+                 {name:'CacheServers4'},
+             ],
+            },
+          ],
+        },
+    ];
       var chartConfigs = [
           {
             chartStyle: {width:"600px", height:"400px"},
@@ -676,7 +748,7 @@ var DashBoardUI = React.createClass({
         return (
             <div>
                 <NavHeader currentUser={ currentUser } currentContent='dashboard' />
-                <BoardContent boardType='dashboard' chartConfigs={chartConfigs} />
+                <BoardContent menudatas={ menudatas } boardType='dashboard' chartConfigs={chartConfigs} />
             </div>
         );
     }
