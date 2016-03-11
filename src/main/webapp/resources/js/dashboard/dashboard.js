@@ -74,6 +74,9 @@ var react_echarts = {};
 
 var NavHeader = React.createClass({
     
+    handleClickLogout: function(){
+       this.refs.form.submit(); 
+    },
 
     render: function() {
         return (
@@ -101,7 +104,10 @@ var NavHeader = React.createClass({
           <ul className="nav navbar-nav navbar-right">
             <li></li>
             <li><a>欢迎：{this.props.currentUser.name}</a></li>
-            <li><a href="#">注销</a></li>
+            <li><a href="#" onClick={this.handleClickLogout}>注销</a></li>
+            <form style={ {visibility: "hidden"} }
+                  ref="form" method="post" 
+                  action="/logout"></form>
           </ul>
         </div>
       </div>
