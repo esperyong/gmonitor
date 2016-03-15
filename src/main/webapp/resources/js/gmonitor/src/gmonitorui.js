@@ -1,76 +1,6 @@
-var react_echarts = {};
+var React = require('react');
+var react_echarts = require('./react-echarts');
 
-(function (ns) {
-
-    ns.ECharts = React.createClass({
-
-        displayName: "ECharts",
-
-        filterMap: function(filterArray,props){
-          const options = {};
-          filterArray.map((key) => {
-            const option = props[key];
-            if (option !== undefined) {
-              options[key] = option;
-            }
-          });
-          return options;
-        },
-
-        componentDidMount: function() {
-          const { onReady } = this.props;
-          this.initChart();
-          if (onReady) onReady(this.chart);
-        },
-
-        componentDidUpdate: function(prevProps) {
-          this.reRenderChart(this.props);
-        },
-
-        componentWillUnmount: function() {
-          this.chart.dispose();
-        },
-
-        reRenderChart: function(chart_options) {
-          this.chart.setOption(chart_options, chart_options.theme);
-        },
-
-        initChart: function() {
-          // 指定图表的配置项和数据
-          const node = this.refs.chart;
-          const options = this.filterMap([
-            'backgroundColor',
-            'animation',
-            'calculable',
-            'renderAsImage',
-            'timeline',
-            'title',
-            'toolbox',
-            'tooltip',
-            'legend',
-            'dataRange',
-            'dataZoom',
-            'roamController',
-            'grid',
-            'color',
-            'xAxis',
-            'yAxis',
-            'series',
-          ], this.props);
-          this.chart = echarts.init(node);
-          this.chart.setOption(options, this.props.theme);
-        },
-
-        render: function() {
-          return (
-              <div ref="chart" className={this.props.className} style={ this.props.chartStyle }>
-              </div>
-          );
-        }
-
-    });
-
-})(react_echarts);
 
 var NavHeader = React.createClass({
     
@@ -214,8 +144,6 @@ var AccordionMenu = React.createClass({
     }
 
 });
-
-
 
 var SideBar = React.createClass({
 
@@ -417,7 +345,19 @@ var SimpleResultTable = React.createClass({
 
 
 
-var QueryBoardUI = React.createClass({
+exports.QueryBoardUI = React.createClass({
+
+    getInitialState: function() {
+        return {
+            currentNode:{},
+            currentMetric:'CPU',
+            startDateTime:'', 
+            endDateTime:'', 
+            chartConfig:[], 
+            rowDatas:[],
+
+        };
+    },
 
     render: function() {
         var menudatas = [
@@ -545,7 +485,16 @@ var QueryBoardUI = React.createClass({
 
 });
 
-var DashBoardUI = React.createClass({
+exports.DashBoardUI = React.createClass({
+
+    getInitialState: function() {
+        return {
+            currentNode:{},
+            chartConfigs:[], 
+            startDateTime:'', 
+            endDateTime:'', 
+        };
+    },
 
     render: function() {
 
@@ -760,19 +709,6 @@ var DashBoardUI = React.createClass({
     }
 
 });
-
-if ( $('#queryboard-content').length > 0 ){
-    ReactDOM.render(
-      <QueryBoardUI />,
-      document.getElementById('queryboard-content')
-    );
-
-}else if($('#dashboard-content').length > 0){
-    ReactDOM.render(
-      <DashBoardUI />,
-      document.getElementById('dashboard-content')
-    );
-}
 
 
 
