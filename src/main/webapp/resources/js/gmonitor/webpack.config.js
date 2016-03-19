@@ -1,7 +1,12 @@
 module.exports = {
-  entry: './index',
+  entry: {
+    DashBoard: './dashboard.js',
+    QueryBoard: './queryboard.js',
+    GmonitorAdmin: './src/admin/index.js'
+  },
   output: {
-      filename: '../gmonitorui-bundle.js'
+      path: '..',
+      filename: '[name]-bundle.js'
   },
   devtool: 'source-map',
   module: {
