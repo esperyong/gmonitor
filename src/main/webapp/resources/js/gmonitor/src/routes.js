@@ -13,15 +13,19 @@ import DepartmentCrud from './modules/DepartmentCrud'
 import AccountMemberDeptRelation from './modules/AccountMemberDeptRelation'
 import AccountMemberCrud from './modules/AccountMemberCrud'
 
+var gmonitorui = require('./modules/gmonitorui')
+
 module.exports = (
   <Route path="/" component={GmonitorAdmin}>
+      <IndexRoute component={gmonitorui.DashBoardUI}/>
+      <Route path="/queryboard/" component={gmonitorui.QueryBoardUI}/>
       <Route path="/admin/cluster/" component={ClusterAdmin}>
-          <Route path="/admin/cluster/crud" component={ClusterCrud}/>
+          <IndexRoute component={ClusterCrud}/>
           <Route path="/admin/cluster-member/crud" component={ClusterMemberCrud}/>
           <Route path="/admin/cluster-member/relation" component={ClusterMemberRelation}/>
       </Route>
       <Route path="/admin/department/" component={DepartmentAdmin}>
-          <Route path="/admin/department/crud" component={DepartmentCrud}/>
+          <IndexRoute component={DepartmentCrud}/>
           <Route path="/admin/account-member/crud" component={AccountMemberCrud}/>
           <Route path="/admin/account-member/dept-relation" component={AccountMemberDeptRelation}/>
       </Route>

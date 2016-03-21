@@ -1,8 +1,6 @@
 module.exports = {
   entry: {
-    DashBoard: './dashboard.js',
-    QueryBoard: './queryboard.js',
-    GmonitorAdmin: './src/admin/index.js'
+    Gmonitor: './index.js',
   },
   output: {
       path: '..',

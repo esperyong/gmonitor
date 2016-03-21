@@ -1,5 +1,7 @@
 var React = require('react');
-var react_echarts = require('./react-echarts');
+var react_echarts = require('../react_echarts/react-echarts');
+import { Link } from 'react-router'
+import NavLink from './NavLink'
 
 
 var NavHeader = React.createClass({
@@ -24,11 +26,25 @@ var NavHeader = React.createClass({
         </div>
         <div id="navbar" className="collapse navbar-collapse">
           <ul className="nav navbar-nav">
-            <li className={this.props.currentContent == 'dashboard' ? 'active' : ''}>
-                <a href="/dashboard">Dashboard</a>
+            <li>
+                <Link activeStyle={{ color: 'white' }} to="/" onlyActiveOnIndex>
+                    统计仪表板
+                </Link>
             </li>
-            <li className={this.props.currentContent == 'queryBoard' ? 'active' : ''}>
-                <a href="/metric-query">分享查询</a>
+            <li>
+                <Link activeStyle={{ color: 'white' }} to="/queryboard/">
+                    指标数据查询
+                </Link>
+            </li>
+            <li>
+                <Link activeStyle={{ color: 'white' }} to="/admin/cluster/">
+                    Cluster管理
+                </Link>
+            </li>
+            <li>
+                <Link activeStyle={{ color: 'white' }} to="/admin/department/">
+                    部门管理
+                </Link>
             </li>
           </ul>
           <ul className="nav navbar-nav navbar-right">
@@ -46,6 +62,8 @@ var NavHeader = React.createClass({
     }
 
 });
+
+exports.NavHeader = NavHeader;
 
 var BoardContent = React.createClass({
 
@@ -473,7 +491,6 @@ exports.QueryBoardUI = React.createClass({
       };
         return (
             <div>
-                <NavHeader currentUser={ currentUser } currentContent='queryBoard' />
                 <BoardContent boardType='queryBoard' 
                     menudatas={ menudatas } 
                     chartConfig={chartConfig} 
@@ -702,13 +719,15 @@ exports.DashBoardUI = React.createClass({
 
         return (
             <div>
-                <NavHeader currentUser={ currentUser } currentContent='dashboard' />
-                <BoardContent menudatas={ menudatas } boardType='dashboard' chartConfigs={chartConfigs} />
+                <BoardContent menudatas={ menudatas } 
+                              boardType='dashboard' 
+                              chartConfigs={chartConfigs} />
             </div>
         );
     }
 
 });
+
 
 
 
