@@ -361,7 +361,7 @@ var SimpleResultTable = React.createClass({
 
 });
 
-
+exports.SimpleResultTable = SimpleResultTable;
 
 exports.QueryBoardUI = React.createClass({
 
@@ -375,6 +375,90 @@ exports.QueryBoardUI = React.createClass({
             rowDatas:[],
 
         };
+    },
+
+    getChartConfig: function(){
+        function randomData() {
+            now = new Date(+now + oneDay);
+            value = value + Math.random() * 21 - 10;
+            return {
+                name: now.toString(),
+                value: [
+                    [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('-'),
+                    Math.round(value)
+                ]
+            }
+        }
+        
+        var data = [];
+        var now = +new Date(1997, 9, 3);
+        var oneDay = 24 * 3600 * 1000;
+        var value = Math.random() * 1000;
+        for (var i = 0; i < 1000; i++) {
+            data.push(randomData());
+        }
+        
+        var option = {
+            chartStyle: {width:"900", height:"600px"},
+            title: {
+                text: 'CpuUsage'
+            },
+            tooltip: {
+                trigger: 'axis',
+                formatter: function (params) {
+                    params = params[0];
+                    var date = new Date(params.name);
+                    return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1];
+                },
+                axisPointer: {
+                    animation: false
+                }
+            },
+            xAxis: {
+                type: 'time',
+                splitLine: {
+                    show: false
+                }
+            },
+            yAxis: {
+                type: 'value',
+                boundaryGap: [0, '100%'],
+                splitLine: {
+                    show: false
+                }
+            },
+            series: [{
+                name: 'CpuUsage',
+                type: 'line',
+                showSymbol: false,
+                hoverAnimation: false,
+                data: data
+            }]
+        };
+
+        //option = {
+        //    chartStyle: {width:"900", height:"600px"},
+        //    //className:"img-responsive",//can delete if required
+        //    title: {
+        //        text: 'ECharts 入门示例'
+        //    },
+        //    tooltip: {},
+        //    legend: {
+        //        data:['销量']
+        //    },
+        //    xAxis: {
+        //        data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+        //    },
+        //    yAxis: {},
+        //    series: [{
+        //        name: '销量',
+        //        type: 'bar',
+        //        data: [5, 20, 36, 10, 10, 20]
+        //    }]
+        //};
+
+        return option;
+
     },
 
     render: function() {
@@ -450,27 +534,7 @@ exports.QueryBoardUI = React.createClass({
         },
     ];
       // 指定图表的配置项和数据
-      var chartConfig = {
-          chartStyle: {width:"900", height:"600px"},
-          //className:"img-responsive",//can delete if required
-          title: {
-              text: 'ECharts 入门示例'
-          },
-          tooltip: {},
-          legend: {
-              data:['销量']
-          },
-          xAxis: {
-              data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
-          },
-          yAxis: {},
-          series: [{
-              name: '销量',
-              type: 'bar',
-              data: [5, 20, 36, 10, 10, 20]
-          }]
-      };
-
+      var chartConfig = this.getChartConfig();
 
       var tableHeads = ['指标项','指标值','采集时间'];
 
@@ -503,6 +567,99 @@ exports.QueryBoardUI = React.createClass({
 });
 
 exports.DashBoardUI = React.createClass({
+
+    getChartConfigs:function(){
+        var configs = [];
+        var charts = ['CpuUsage','CurrentHeapSize','ClientConnectionCount','GarbageCollectionCount','JVMPauses','TotalFileDescriptorOpen'];
+        for (var i = 0; i < charts.length; i++) {
+            configs.push(this.getChartConfig(charts[i]));
+        };
+        return configs;
+    },
+
+    getChartConfig: function(chartName){
+        function randomData() {
+            now = new Date(+now + oneDay);
+            value = value + Math.random() * 21 - 10;
+            return {
+                name: now.toString(),
+                value: [
+                    [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('-'),
+                    Math.round(value)
+                ]
+            }
+        }
+        
+        var data = [];
+        var now = +new Date(1997, 9, 3);
+        var oneDay = 24 * 3600 * 1000;
+        var value = Math.random() * 1000;
+        for (var i = 0; i < 1000; i++) {
+            data.push(randomData());
+        }
+        
+        var option = {
+            chartStyle: {width:"600px", height:"400px"},
+            title: {
+                text: chartName,
+            },
+            tooltip: {
+                trigger: 'axis',
+                formatter: function (params) {
+                    params = params[0];
+                    var date = new Date(params.name);
+                    return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1];
+                },
+                axisPointer: {
+                    animation: false
+                }
+            },
+            xAxis: {
+                type: 'time',
+                splitLine: {
+                    show: false
+                }
+            },
+            yAxis: {
+                type: 'value',
+                boundaryGap: [0, '100%'],
+                splitLine: {
+                    show: false
+                }
+            },
+            series: [{
+                name: 'CpuUsage',
+                type: 'line',
+                showSymbol: false,
+                hoverAnimation: false,
+                data: data
+            }]
+        };
+
+        //option = {
+        //    chartStyle: {width:"900", height:"600px"},
+        //    //className:"img-responsive",//can delete if required
+        //    title: {
+        //        text: 'ECharts 入门示例'
+        //    },
+        //    tooltip: {},
+        //    legend: {
+        //        data:['销量']
+        //    },
+        //    xAxis: {
+        //        data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+        //    },
+        //    yAxis: {},
+        //    series: [{
+        //        name: '销量',
+        //        type: 'bar',
+        //        data: [5, 20, 36, 10, 10, 20]
+        //    }]
+        //};
+
+        return option;
+
+    },
 
     getInitialState: function() {
         return {
@@ -586,130 +743,8 @@ exports.DashBoardUI = React.createClass({
           ],
         },
     ];
-      var chartConfigs = [
-          {
-            chartStyle: {width:"600px", height:"400px"},
-            className:"img-responsive",//can delete if required
-            title: {
-                text: 'ECharts 入门示例'
-            },
-            tooltip: {},
-            legend: {
-                data:['销量']
-            },
-            xAxis: {
-                data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
-            },
-            yAxis: {},
-            series: [{
-                name: '销量',
-                type: 'bar',
-                data: [5, 20, 36, 10, 10, 20]
-            }]
-          },
-          {
-            chartStyle: {width:"600px", height:"400px"},
-            className:"img-responsive",//can delete if required
-            title: {
-                text: 'ECharts 入门示例'
-            },
-            tooltip: {},
-            legend: {
-                data:['销量']
-            },
-            xAxis: {
-                data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
-            },
-            yAxis: {},
-            series: [{
-                name: '销量',
-                type: 'bar',
-                data: [5, 20, 36, 10, 10, 20]
-            }]
-          },
 
-          {
-            chartStyle: {width:"600px", height:"400px"},
-            className:"img-responsive",//can delete if required
-            title: {
-                text: 'ECharts 入门示例'
-            },
-            tooltip: {},
-            legend: {
-                data:['销量']
-            },
-            xAxis: {
-                data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
-            },
-            yAxis: {},
-            series: [{
-                name: '销量',
-                type: 'bar',
-                data: [5, 20, 36, 10, 10, 20]
-            }]
-          },
-          {
-            chartStyle: {width:"600px", height:"400px"},
-            className:"img-responsive",//can delete if required
-            title: {
-                text: 'ECharts 入门示例'
-            },
-            tooltip: {},
-            legend: {
-                data:['销量']
-            },
-            xAxis: {
-                data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
-            },
-            yAxis: {},
-            series: [{
-                name: '销量',
-                type: 'bar',
-                data: [5, 20, 36, 10, 10, 20]
-            }]
-          },
-
-          {
-            chartStyle: {width:"600px", height:"400px"},
-            className:"img-responsive",//can delete if required
-            title: {
-                text: 'ECharts 入门示例'
-            },
-            tooltip: {},
-            legend: {
-                data:['销量']
-            },
-            xAxis: {
-                data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
-            },
-            yAxis: {},
-            series: [{
-                name: '销量',
-                type: 'bar',
-                data: [5, 20, 36, 10, 10, 20]
-            }]
-          },
-          {
-            chartStyle: {width:"600px", height:"400px"},
-            className:"img-responsive",//can delete if required
-            title: {
-                text: 'ECharts 入门示例'
-            },
-            tooltip: {},
-            legend: {
-                data:['销量']
-            },
-            xAxis: {
-                data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
-            },
-            yAxis: {},
-            series: [{
-                name: '销量',
-                type: 'bar',
-                data: [5, 20, 36, 10, 10, 20]
-            }]
-          },
-      ];
+      var chartConfigs = this.getChartConfigs();
 
       var currentUser = {
           id: 'liuyong',

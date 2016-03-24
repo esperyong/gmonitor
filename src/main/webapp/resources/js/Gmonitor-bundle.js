@@ -25659,6 +25659,8 @@
 	
 	});
 	
+	exports.SimpleResultTable = SimpleResultTable;
+	
 	exports.QueryBoardUI = React.createClass({
 	    displayName: 'QueryBoardUI',
 	
@@ -25673,6 +25675,86 @@
 	            rowDatas: []
 	
 	        };
+	    },
+	
+	    getChartConfig: function getChartConfig() {
+	        function randomData() {
+	            now = new Date(+now + oneDay);
+	            value = value + Math.random() * 21 - 10;
+	            return {
+	                name: now.toString(),
+	                value: [[now.getFullYear(), now.getMonth() + 1, now.getDate()].join('-'), Math.round(value)]
+	            };
+	        }
+	
+	        var data = [];
+	        var now = +new Date(1997, 9, 3);
+	        var oneDay = 24 * 3600 * 1000;
+	        var value = Math.random() * 1000;
+	        for (var i = 0; i < 1000; i++) {
+	            data.push(randomData());
+	        }
+	
+	        var option = {
+	            chartStyle: { width: "900", height: "600px" },
+	            title: {
+	                text: 'CpuUsage'
+	            },
+	            tooltip: {
+	                trigger: 'axis',
+	                formatter: function formatter(params) {
+	                    params = params[0];
+	                    var date = new Date(params.name);
+	                    return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1];
+	                },
+	                axisPointer: {
+	                    animation: false
+	                }
+	            },
+	            xAxis: {
+	                type: 'time',
+	                splitLine: {
+	                    show: false
+	                }
+	            },
+	            yAxis: {
+	                type: 'value',
+	                boundaryGap: [0, '100%'],
+	                splitLine: {
+	                    show: false
+	                }
+	            },
+	            series: [{
+	                name: 'CpuUsage',
+	                type: 'line',
+	                showSymbol: false,
+	                hoverAnimation: false,
+	                data: data
+	            }]
+	        };
+	
+	        //option = {
+	        //    chartStyle: {width:"900", height:"600px"},
+	        //    //className:"img-responsive",//can delete if required
+	        //    title: {
+	        //        text: 'ECharts 入门示例'
+	        //    },
+	        //    tooltip: {},
+	        //    legend: {
+	        //        data:['销量']
+	        //    },
+	        //    xAxis: {
+	        //        data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+	        //    },
+	        //    yAxis: {},
+	        //    series: [{
+	        //        name: '销量',
+	        //        type: 'bar',
+	        //        data: [5, 20, 36, 10, 10, 20]
+	        //    }]
+	        //};
+	
+	        return option;
 	    },
 	
 	    render: function render() {
@@ -25705,26 +25787,7 @@
 	            }]
 	        }];
 	        // 指定图表的配置项和数据
-	        var chartConfig = {
-	            chartStyle: { width: "900", height: "600px" },
-	            //className:"img-responsive",//can delete if required
-	            title: {
-	                text: 'ECharts 入门示例'
-	            },
-	            tooltip: {},
-	            legend: {
-	                data: ['销量']
-	            },
-	            xAxis: {
-	                data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
-	            },
-	            yAxis: {},
-	            series: [{
-	                name: '销量',
-	                type: 'bar',
-	                data: [5, 20, 36, 10, 10, 20]
-	            }]
-	        };
+	        var chartConfig = this.getChartConfig();
 	
 	        var tableHeads = ['指标项', '指标值', '采集时间'];
 	
@@ -25750,6 +25813,95 @@
 	exports.DashBoardUI = React.createClass({
 	    displayName: 'DashBoardUI',
 	
+	
+	    getChartConfigs: function getChartConfigs() {
+	        var configs = [];
+	        var charts = ['CpuUsage', 'CurrentHeapSize', 'ClientConnectionCount', 'GarbageCollectionCount', 'JVMPauses', 'TotalFileDescriptorOpen'];
+	        for (var i = 0; i < charts.length; i++) {
+	            configs.push(this.getChartConfig(charts[i]));
+	        };
+	        return configs;
+	    },
+	
+	    getChartConfig: function getChartConfig(chartName) {
+	        function randomData() {
+	            now = new Date(+now + oneDay);
+	            value = value + Math.random() * 21 - 10;
+	            return {
+	                name: now.toString(),
+	                value: [[now.getFullYear(), now.getMonth() + 1, now.getDate()].join('-'), Math.round(value)]
+	            };
+	        }
+	
+	        var data = [];
+	        var now = +new Date(1997, 9, 3);
+	        var oneDay = 24 * 3600 * 1000;
+	        var value = Math.random() * 1000;
+	        for (var i = 0; i < 1000; i++) {
+	            data.push(randomData());
+	        }
+	
+	        var option = {
+	            chartStyle: { width: "600px", height: "400px" },
+	            title: {
+	                text: chartName
+	            },
+	            tooltip: {
+	                trigger: 'axis',
+	                formatter: function formatter(params) {
+	                    params = params[0];
+	                    var date = new Date(params.name);
+	                    return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1];
+	                },
+	                axisPointer: {
+	                    animation: false
+	                }
+	            },
+	            xAxis: {
+	                type: 'time',
+	                splitLine: {
+	                    show: false
+	                }
+	            },
+	            yAxis: {
+	                type: 'value',
+	                boundaryGap: [0, '100%'],
+	                splitLine: {
+	                    show: false
+	                }
+	            },
+	            series: [{
+	                name: 'CpuUsage',
+	                type: 'line',
+	                showSymbol: false,
+	                hoverAnimation: false,
+	                data: data
+	            }]
+	        };
+	
+	        //option = {
+	        //    chartStyle: {width:"900", height:"600px"},
+	        //    //className:"img-responsive",//can delete if required
+	        //    title: {
+	        //        text: 'ECharts 入门示例'
+	        //    },
+	        //    tooltip: {},
+	        //    legend: {
+	        //        data:['销量']
+	        //    },
+	        //    xAxis: {
+	        //        data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+	        //    },
+	        //    yAxis: {},
+	        //    series: [{
+	        //        name: '销量',
+	        //        type: 'bar',
+	        //        data: [5, 20, 36, 10, 10, 20]
+	        //    }]
+	        //};
+	
+	        return option;
+	    },
 	
 	    getInitialState: function getInitialState() {
 	        return {
@@ -25790,121 +25942,8 @@
 	                submenus: [{ name: 'CacheServers1' }, { name: 'CacheServers2' }, { name: 'CacheServers3' }, { name: 'CacheServers4' }]
 	            }]
 	        }];
-	        var chartConfigs = [{
-	            chartStyle: { width: "600px", height: "400px" },
-	            className: "img-responsive", //can delete if required
-	            title: {
-	                text: 'ECharts 入门示例'
-	            },
-	            tooltip: {},
-	            legend: {
-	                data: ['销量']
-	            },
-	            xAxis: {
-	                data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
-	            },
-	            yAxis: {},
-	            series: [{
-	                name: '销量',
-	                type: 'bar',
-	                data: [5, 20, 36, 10, 10, 20]
-	            }]
-	        }, {
-	            chartStyle: { width: "600px", height: "400px" },
-	            className: "img-responsive", //can delete if required
-	            title: {
-	                text: 'ECharts 入门示例'
-	            },
-	            tooltip: {},
-	            legend: {
-	                data: ['销量']
-	            },
-	            xAxis: {
-	                data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
-	            },
-	            yAxis: {},
-	            series: [{
-	                name: '销量',
-	                type: 'bar',
-	                data: [5, 20, 36, 10, 10, 20]
-	            }]
-	        }, {
-	            chartStyle: { width: "600px", height: "400px" },
-	            className: "img-responsive", //can delete if required
-	            title: {
-	                text: 'ECharts 入门示例'
-	            },
-	            tooltip: {},
-	            legend: {
-	                data: ['销量']
-	            },
-	            xAxis: {
-	                data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
-	            },
-	            yAxis: {},
-	            series: [{
-	                name: '销量',
-	                type: 'bar',
-	                data: [5, 20, 36, 10, 10, 20]
-	            }]
-	        }, {
-	            chartStyle: { width: "600px", height: "400px" },
-	            className: "img-responsive", //can delete if required
-	            title: {
-	                text: 'ECharts 入门示例'
-	            },
-	            tooltip: {},
-	            legend: {
-	                data: ['销量']
-	            },
-	            xAxis: {
-	                data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
-	            },
-	            yAxis: {},
-	            series: [{
-	                name: '销量',
-	                type: 'bar',
-	                data: [5, 20, 36, 10, 10, 20]
-	            }]
-	        }, {
-	            chartStyle: { width: "600px", height: "400px" },
-	            className: "img-responsive", //can delete if required
-	            title: {
-	                text: 'ECharts 入门示例'
-	            },
-	            tooltip: {},
-	            legend: {
-	                data: ['销量']
-	            },
-	            xAxis: {
-	                data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
-	            },
-	            yAxis: {},
-	            series: [{
-	                name: '销量',
-	                type: 'bar',
-	                data: [5, 20, 36, 10, 10, 20]
-	            }]
-	        }, {
-	            chartStyle: { width: "600px", height: "400px" },
-	            className: "img-responsive", //can delete if required
-	            title: {
-	                text: 'ECharts 入门示例'
-	            },
-	            tooltip: {},
-	            legend: {
-	                data: ['销量']
-	            },
-	            xAxis: {
-	                data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
-	            },
-	            yAxis: {},
-	            series: [{
-	                name: '销量',
-	                type: 'bar',
-	                data: [5, 20, 36, 10, 10, 20]
-	            }]
-	        }];
+	
+	        var chartConfigs = this.getChartConfigs();
 	
 	        var currentUser = {
 	            id: 'liuyong',
@@ -76539,11 +76578,7 @@
 	            )
 	          )
 	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main' },
-	          this.props.children
-	        )
+	        this.props.children
 	      )
 	    );
 	  }
@@ -76565,17 +76600,26 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
+	var gmonitorui = __webpack_require__(218);
+	
 	exports.default = _react2.default.createClass({
 	  displayName: 'ClusterCrud',
 	  render: function render() {
+	
+	    var tableHeads = ['指标项', '指标值', '采集时间'];
+	
+	    var rowDatas = [['CPU', '53.01%', '2015-12-14 22:22:00'], ['CPU', '53.01%', '2015-12-14 22:22:00'], ['CPU', '53.01%', '2015-12-14 22:22:00'], ['CPU', '53.01%', '2015-12-14 22:22:00'], ['CPU', '53.01%', '2015-12-14 22:22:00'], ['CPU', '53.01%', '2015-12-14 22:22:00'], ['CPU', '53.01%', '2015-12-14 22:22:00'], ['CPU', '53.01%', '2015-12-14 22:22:00']];
+	
 	    return _react2.default.createElement(
 	      'div',
-	      null,
+	      { className: 'col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main' },
 	      _react2.default.createElement(
-	        'h1',
-	        null,
-	        'ClusterCrud'
-	      )
+	        'div',
+	        { className: 'sub-header' },
+	        'Cluster管理'
+	      ),
+	      _react2.default.createElement(gmonitorui.SimpleResultTable, { theads: tableHeads,
+	        rowDatas: rowDatas })
 	    );
 	  }
 	});
@@ -76596,17 +76640,26 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
+	var gmonitorui = __webpack_require__(218);
+	
 	exports.default = _react2.default.createClass({
 	  displayName: 'ClusterMemberCrud',
 	  render: function render() {
+	
+	    var tableHeads = ['指标项', '指标值', '采集时间'];
+	
+	    var rowDatas = [['CPU', '53.01%', '2015-12-14 22:22:00'], ['CPU', '53.01%', '2015-12-14 22:22:00'], ['CPU', '53.01%', '2015-12-14 22:22:00'], ['CPU', '53.01%', '2015-12-14 22:22:00'], ['CPU', '53.01%', '2015-12-14 22:22:00'], ['CPU', '53.01%', '2015-12-14 22:22:00'], ['CPU', '53.01%', '2015-12-14 22:22:00'], ['CPU', '53.01%', '2015-12-14 22:22:00']];
+	
 	    return _react2.default.createElement(
 	      'div',
-	      null,
+	      { className: 'col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main' },
 	      _react2.default.createElement(
-	        'h1',
-	        null,
-	        'ClusterMemberCrud'
-	      )
+	        'div',
+	        { className: 'sub-header' },
+	        'Cluster Member管理'
+	      ),
+	      _react2.default.createElement(gmonitorui.SimpleResultTable, { theads: tableHeads,
+	        rowDatas: rowDatas })
 	    );
 	  }
 	});
@@ -76716,11 +76769,7 @@
 	            )
 	          )
 	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main' },
-	          this.props.children
-	        )
+	        this.props.children
 	      )
 	    );
 	  }
@@ -76742,17 +76791,26 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
+	var gmonitorui = __webpack_require__(218);
+	
 	exports.default = _react2.default.createClass({
 	  displayName: 'DepartmentCrud',
 	  render: function render() {
+	
+	    var tableHeads = ['指标项', '指标值', '采集时间'];
+	
+	    var rowDatas = [['CPU', '53.01%', '2015-12-14 22:22:00'], ['CPU', '53.01%', '2015-12-14 22:22:00'], ['CPU', '53.01%', '2015-12-14 22:22:00'], ['CPU', '53.01%', '2015-12-14 22:22:00'], ['CPU', '53.01%', '2015-12-14 22:22:00'], ['CPU', '53.01%', '2015-12-14 22:22:00'], ['CPU', '53.01%', '2015-12-14 22:22:00'], ['CPU', '53.01%', '2015-12-14 22:22:00']];
+	
 	    return _react2.default.createElement(
 	      'div',
-	      null,
+	      { className: 'col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main' },
 	      _react2.default.createElement(
-	        'h1',
-	        null,
-	        'DepartmentCrud'
-	      )
+	        'div',
+	        { className: 'sub-header' },
+	        '部门管理'
+	      ),
+	      _react2.default.createElement(gmonitorui.SimpleResultTable, { theads: tableHeads,
+	        rowDatas: rowDatas })
 	    );
 	  }
 	});
@@ -76795,7 +76853,7 @@
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+	    value: true
 	});
 	
 	var _react = __webpack_require__(1);
@@ -76804,20 +76862,348 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
+	var gmonitorui = __webpack_require__(218);
+	var Table = __webpack_require__(577);
+	var Modal = __webpack_require__(579);
+	
 	exports.default = _react2.default.createClass({
-	  displayName: 'AccountMemberCrud',
+	    displayName: 'AccountMemberCrud',
+	
+	
+	    getInitialState: function getInitialState() {
+	        return {
+	            currentUpdateClusterId: '',
+	            currentUpdateClusterAdmin: ''
+	        };
+	    },
+	
+	    handleClick: function handleClick(cluster, e) {
+	        console.log(cluster);
+	        this.setState({ currentUpdateClusterId: cluster.clusterId });
+	        this.setState({ currentUpdateClusterAdmin: cluster.clusterAdmin });
+	    },
+	
+	    updateCluster: function updateCluster() {
+	        var currentUpdateClusterId = this.state.currentUpdateClusterId;
+	        var currentUpdateClusterAdmin = this.state.currentUpdateClusterAdmin;
+	        console.log(currentUpdateClusterId);
+	        console.log(currentUpdateClusterAdmin);
+	    },
+	
+	    componentDidMount: function componentDidMount() {
+	        //TODO fetchData;
+	        //console.log($('#myModal'));
+	    },
+	
+	    createCluster: function createCluster() {
+	        console.log('createCluster');
+	    },
+	
+	    renderCreateModalBody: function renderCreateModalBody() {
+	        return _react2.default.createElement(
+	            'i',
+	            null,
+	            '增加Cluster'
+	        );
+	    },
+	
+	    renderCreateModalHeader: function renderCreateModalHeader() {
+	        return _react2.default.createElement(
+	            'div',
+	            null,
+	            _react2.default.createElement(
+	                'button',
+	                { type: 'button', className: 'close', 'data-dismiss': 'modal', 'aria-label': 'Close' },
+	                _react2.default.createElement(
+	                    'span',
+	                    { 'aria-hidden': 'true' },
+	                    '×'
+	                )
+	            ),
+	            _react2.default.createElement(
+	                'h4',
+	                { className: 'modal-title', id: 'myModalLabel' },
+	                '更新Cluster'
+	            )
+	        );
+	    },
+	
+	    renderCreateModalFooter: function renderCreateModalFooter() {
+	        return _react2.default.createElement(
+	            'div',
+	            null,
+	            _react2.default.createElement(
+	                'button',
+	                { type: 'button', onClick: this.createCluster, className: 'btn btn-primary' },
+	                '确认创建'
+	            )
+	        );
+	    },
+	
+	    renderUpdateModalBody: function renderUpdateModalBody() {
+	        var handleUpdateClusterIdChange = function (event) {
+	            this.setState({ currentUpdateClusterId: event.target.value });
+	        }.bind(this);
+	        var handleUpdateClusterAdminChange = function (event) {
+	            this.setState({ currentUpdateClusterAdmin: event.target.value });
+	        }.bind(this);
+	
+	        return _react2.default.createElement(
+	            'div',
+	            null,
+	            _react2.default.createElement('input', { type: 'text', value: this.state.currentUpdateClusterId, onChange: handleUpdateClusterIdChange }),
+	            _react2.default.createElement('input', { type: 'text', value: this.state.currentUpdateClusterAdmin, onChange: handleUpdateClusterAdminChange })
+	        );
+	    },
+	
+	    renderUpdateModalHeader: function renderUpdateModalHeader() {
+	        return _react2.default.createElement(
+	            'div',
+	            null,
+	            _react2.default.createElement(
+	                'button',
+	                { type: 'button', className: 'close', 'data-dismiss': 'modal', 'aria-label': 'Close' },
+	                _react2.default.createElement(
+	                    'span',
+	                    { 'aria-hidden': 'true' },
+	                    '×'
+	                )
+	            ),
+	            _react2.default.createElement(
+	                'h4',
+	                { className: 'modal-title', id: 'myModalLabel' },
+	                '更新Cluster'
+	            )
+	        );
+	    },
+	
+	    renderUpdateModalFooter: function renderUpdateModalFooter() {
+	        return _react2.default.createElement(
+	            'div',
+	            null,
+	            _react2.default.createElement(
+	                'button',
+	                { type: 'button',
+	                    onClick: this.updateCluster,
+	                    className: 'btn btn-primary' },
+	                '确认更新'
+	            )
+	        );
+	    },
+	
+	    render: function render() {
+	
+	        var rowDatas = [{ clusterId: '001', clusterAdmin: '张三' }, { clusterId: '002', clusterAdmin: '李四' }, { clusterId: '003', clusterAdmin: '王二麻子' }];
+	
+	        var renderRow = function (cluster) {
+	            var cells = [];
+	            cells.push(_react2.default.createElement(
+	                'td',
+	                null,
+	                cluster.clusterId
+	            ));
+	            cells.push(_react2.default.createElement(
+	                'td',
+	                null,
+	                cluster.clusterAdmin
+	            ));
+	            cells.push(_react2.default.createElement(
+	                'td',
+	                null,
+	                _react2.default.createElement(
+	                    'button',
+	                    { type: 'button',
+	                        onClick: this.handleClick.bind(this, cluster),
+	                        'data-toggle': 'modal',
+	                        'data-target': '#updateClusterModal',
+	                        className: 'btn btn-success' },
+	                    '修改Cluster成员'
+	                )
+	            ));
+	            return _react2.default.createElement(
+	                'tr',
+	                null,
+	                cells
+	            );
+	        }.bind(this);
+	
+	        var renderHeader = function renderHeader() {
+	            return _react2.default.createElement(
+	                'thead',
+	                null,
+	                _react2.default.createElement(
+	                    'tr',
+	                    null,
+	                    _react2.default.createElement(
+	                        'th',
+	                        null,
+	                        'ClusterId'
+	                    ),
+	                    _react2.default.createElement(
+	                        'th',
+	                        null,
+	                        '联系人'
+	                    ),
+	                    _react2.default.createElement(
+	                        'th',
+	                        null,
+	                        '操作'
+	                    )
+	                )
+	            );
+	        };
+	
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main' },
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'sub-header' },
+	                _react2.default.createElement(
+	                    'button',
+	                    { type: 'button',
+	                        'data-toggle': 'modal', 'data-target': '#createClusterModal',
+	                        className: 'btn btn-success' },
+	                    '增加Cluster'
+	                )
+	            ),
+	            _react2.default.createElement(Table, { datas: rowDatas, renderRow: renderRow, renderHeader: renderHeader }),
+	            _react2.default.createElement(Modal, { modalId: 'createClusterModal',
+	                renderBody: this.renderCreateModalBody,
+	                renderHeader: this.renderCreateModalHeader,
+	                renderFooter: this.renderCreateModalFooter }),
+	            _react2.default.createElement(Modal, { modalId: 'updateClusterModal',
+	                renderBody: this.renderUpdateModalBody,
+	                renderHeader: this.renderUpdateModalHeader,
+	                renderFooter: this.renderUpdateModalFooter })
+	        );
+	    }
+	});
+
+/***/ },
+/* 577 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(1);
+	var ObjectUtils = __webpack_require__(578);
+	
+	var Table = React.createClass({
+	  displayName: 'Table',
+	
+	
+	  propTypes: {
+	    datas: React.PropTypes.array.isRequired,
+	    renderRow: React.PropTypes.func.isRequired,
+	    renderHeader: React.PropTypes.func,
+	    renderFooter: React.PropTypes.func
+	  },
+	
 	  render: function render() {
-	    return _react2.default.createElement(
+	    var rows = [];
+	
+	    this.props.datas.forEach(function (data, key) {
+	      rows.push(this.props.renderRow(data, key));
+	    }.bind(this));
+	
+	    var header = ObjectUtils.hasOwnProperty(this.props, 'renderHeader') ? this.props.renderHeader() : null;
+	    var footer = ObjectUtils.hasOwnProperty(this.props, 'renderFooter') ? this.props.renderFooter() : null;
+	
+	    return React.createElement(
 	      'div',
-	      null,
-	      _react2.default.createElement(
-	        'h1',
-	        null,
-	        'AccountMemberCrud'
+	      { className: 'table-responsive' },
+	      React.createElement(
+	        'table',
+	        { className: 'table table-striped' },
+	        header,
+	        React.createElement(
+	          'tbody',
+	          null,
+	          rows
+	        ),
+	        footer
 	      )
 	    );
 	  }
+	
 	});
+	
+	module.exports = Table;
+
+/***/ },
+/* 578 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var ObjectUtils = {
+	
+	  hasOwnProperty: function hasOwnProperty(obj, prop) {
+	    var proto = obj.__proto__ || obj.constructor.prototype;
+	    return prop in obj && (!(prop in proto) || proto[prop] !== obj[prop]);
+	  }
+	
+	};
+	
+	module.exports = ObjectUtils;
+
+/***/ },
+/* 579 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var React = __webpack_require__(1);
+	
+	var Modal = React.createClass({
+	  displayName: "Modal",
+	
+	
+	  propTypes: {
+	    modalId: React.PropTypes.string.isRequired,
+	    renderHeader: React.PropTypes.func.isRequired,
+	    renderBody: React.PropTypes.func.isRequired,
+	    renderFooter: React.PropTypes.func.isRequired
+	  },
+	
+	  render: function render() {
+	    return React.createElement(
+	      "div",
+	      { className: "modal fade",
+	        id: this.props.modalId,
+	        tabindex: "-1",
+	        role: "dialog",
+	        "aria-labelledby": "myModalLabel" },
+	      React.createElement(
+	        "div",
+	        { className: "modal-dialog", role: "document" },
+	        React.createElement(
+	          "div",
+	          { className: "modal-content" },
+	          React.createElement(
+	            "div",
+	            { className: "modal-header" },
+	            this.props.renderHeader()
+	          ),
+	          React.createElement(
+	            "div",
+	            { className: "modal-body" },
+	            this.props.renderBody()
+	          ),
+	          React.createElement(
+	            "div",
+	            { className: "modal-footer" },
+	            this.props.renderFooter()
+	          )
+	        )
+	      )
+	    );
+	  }
+	
+	});
+	
+	module.exports = Modal;
 
 /***/ }
 /******/ ]);
