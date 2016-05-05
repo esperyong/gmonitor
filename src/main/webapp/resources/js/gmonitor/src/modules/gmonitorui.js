@@ -37,11 +37,6 @@ var NavHeader = React.createClass({
                 </Link>
             </li>
             <li>
-                <Link activeStyle={{ color: 'white' }} to="/admin/cluster/">
-                    Cluster管理
-                </Link>
-            </li>
-            <li>
                 <Link activeStyle={{ color: 'white' }} to="/admin/department/">
                     部门管理
                 </Link>
@@ -195,7 +190,6 @@ var DashBoard = React.createClass({
     render: function() {
         return (
           <div className="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-              <QueryBar  />
               <ChartsPanel chartConfigs={this.props.chartConfigs} />
           </div>
         );
@@ -377,6 +371,69 @@ exports.QueryBoardUI = React.createClass({
         };
     },
 
+    getChartConfig2: function(){
+        function randomData() {
+            now = new Date(+now + oneDay);
+            value = value + Math.random() * 21 - 10;
+            return {
+                name: now.toString(),
+                value: [
+                    [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('-'),
+                    Math.round(value)
+                ]
+            }
+        }
+        
+        var data = [];
+        //var now = +new Date(1997, 9, 3);
+        //var oneDay = 24 * 3600 * 1000;
+        //var value = Math.random() * 1000;
+        //for (var i = 0; i < 1000; i++) {
+        //    data.push(randomData());
+        //}
+        
+        var option = {
+            chartStyle: {width:"900", height:"600px"},
+            title: {
+                text: 'CpuUsage'
+            },
+            tooltip: {
+                trigger: 'axis',
+                formatter: function (params) {
+                    params = params[0];
+                    var date = new Date(params.name);
+                    return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1];
+                },
+                axisPointer: {
+                    animation: false
+                }
+            },
+            xAxis: {
+                type: 'time',
+                splitLine: {
+                    show: false
+                }
+            },
+            yAxis: {
+                type: 'value',
+                boundaryGap: [0, '100%'],
+                splitLine: {
+                    show: false
+                }
+            },
+            series: [{
+                name: 'CpuUsage',
+                type: 'line',
+                showSymbol: false,
+                hoverAnimation: false,
+                data: data
+            }]
+        };
+
+        return option;
+
+    },
+
     getChartConfig: function(){
         function randomData() {
             now = new Date(+now + oneDay);
@@ -463,64 +520,64 @@ exports.QueryBoardUI = React.createClass({
 
     render: function() {
         var menudatas = [
-        {
-          name:'个人网银/集群',
-          submenus:[
-            {
-             name:'Locators',
-             submenus:[
-                 {name:'Locator1',submenus:[]},
-                 {name:'Locator2',submenus:[]},
-                 {name:'Locator3',submenus:[]},
-                 {name:'Locator4',submenus:[]},
-             ],
-            },
-            {
-             name:'CacheServers',
-             submenus:[
-                 {name:'CacheServers1'},
-                 {name:'CacheServers2'},
-                 {name:'CacheServers3'},
-                 {name:'CacheServers4'},
-             ],
-            },
-          ],
-        },
-        {
-          name:'参数集群',
-          submenus:[
-            {
-             name:'Locators',
-             submenus:[
-                 {name:'Locator1'},
-                 {name:'Locator2'},
-                 {name:'Locator3'},
-                 {name:'Locator4'},
-             ],
-            },
-            {
-             name:'CacheServers',
-             submenus:[
-                 {name:'CacheServers1'},
-                 {name:'CacheServers2'},
-                 {name:'CacheServers3'},
-                 {name:'CacheServers4'},
-             ],
-            },
-          ],
-        },
+          //{
+          //  name:'个人网银/集群',
+          //  submenus:[
+          //    {
+          //     name:'Locators',
+          //     submenus:[
+          //         {name:'Locator1',submenus:[]},
+          //         {name:'Locator2',submenus:[]},
+          //         {name:'Locator3',submenus:[]},
+          //         {name:'Locator4',submenus:[]},
+          //     ],
+          //    },
+          //    {
+          //     name:'CacheServers',
+          //     submenus:[
+          //         {name:'CacheServers1'},
+          //         {name:'CacheServers2'},
+          //         {name:'CacheServers3'},
+          //         {name:'CacheServers4'},
+          //     ],
+          //    },
+          //  ],
+          //},//  
+          //{
+          //  name:'参数集群',
+          //  submenus:[
+          //    {
+          //     name:'Locators',
+          //     submenus:[
+          //         {name:'Locator1'},
+          //         {name:'Locator2'},
+          //         {name:'Locator3'},
+          //         {name:'Locator4'},
+          //     ],
+          //    },
+          //    {
+          //     name:'CacheServers',
+          //     submenus:[
+          //         {name:'CacheServers1'},
+          //         {name:'CacheServers2'},
+          //         {name:'CacheServers3'},
+          //         {name:'CacheServers4'},
+          //     ],
+          //    },
+          //  ],
+          //},//  
         {
           name:'企业集群',
           submenus:[
-            {
-             name:'Locators',
-             submenus:[
-                 {name:'Locator1'},
-                 {name:'Locator2'},
-                 {name:'Locator3'},
-                 {name:'Locator4'},
-             ],
-            },
+            //{
+            // name:'Locators',
+            // submenus:[
+            //     {name:'Locator1'},
+            //     {name:'Locator2'},
+            //     {name:'Locator3'},
+            //     {name:'Locator4'},
+            // ],
+            //},
             {
              name:'CacheServers',
              submenus:[
@@ -534,19 +591,11 @@ exports.QueryBoardUI = React.createClass({
         },
     ];
       // 指定图表的配置项和数据
-      var chartConfig = this.getChartConfig();
+      var chartConfig = this.getChartConfig2();
 
       var tableHeads = ['指标项','指标值','采集时间'];
 
       var rowDatas = [
-                                    ['CPU','53.01%','2015-12-14 22:22:00'],
-                                    ['CPU','53.01%','2015-12-14 22:22:00'],
-                                    ['CPU','53.01%','2015-12-14 22:22:00'],
-                                    ['CPU','53.01%','2015-12-14 22:22:00'],
-                                    ['CPU','53.01%','2015-12-14 22:22:00'],
-                                    ['CPU','53.01%','2015-12-14 22:22:00'],
-                                    ['CPU','53.01%','2015-12-14 22:22:00'],
-                                    ['CPU','53.01%','2015-12-14 22:22:00'],
                       ];
       var currentUser = {
           id: 'liuyong',
@@ -673,64 +722,64 @@ exports.DashBoardUI = React.createClass({
     render: function() {
 
         var menudatas = [
-        {
-          name:'个人网银/集群',
-          submenus:[
-            {
-             name:'Locators',
-             submenus:[
-                 {name:'Locator1',submenus:[]},
-                 {name:'Locator2',submenus:[]},
-                 {name:'Locator3',submenus:[]},
-                 {name:'Locator4',submenus:[]},
-             ],
-            },
-            {
-             name:'CacheServers',
-             submenus:[
-                 {name:'CacheServers1'},
-                 {name:'CacheServers2'},
-                 {name:'CacheServers3'},
-                 {name:'CacheServers4'},
-             ],
-            },
-          ],
-        },
-        {
-          name:'参数集群',
-          submenus:[
-            {
-             name:'Locators',
-             submenus:[
-                 {name:'Locator1'},
-                 {name:'Locator2'},
-                 {name:'Locator3'},
-                 {name:'Locator4'},
-             ],
-            },
-            {
-             name:'CacheServers',
-             submenus:[
-                 {name:'CacheServers1'},
-                 {name:'CacheServers2'},
-                 {name:'CacheServers3'},
-                 {name:'CacheServers4'},
-             ],
-            },
-          ],
-        },
+          //{
+          //  name:'个人网银/集群',
+          //  submenus:[
+          //    {
+          //     name:'Locators',
+          //     submenus:[
+          //         {name:'Locator1',submenus:[]},
+          //         {name:'Locator2',submenus:[]},
+          //         {name:'Locator3',submenus:[]},
+          //         {name:'Locator4',submenus:[]},
+          //     ],
+          //    },
+          //    {
+          //     name:'CacheServers',
+          //     submenus:[
+          //         {name:'CacheServers1'},
+          //         {name:'CacheServers2'},
+          //         {name:'CacheServers3'},
+          //         {name:'CacheServers4'},
+          //     ],
+          //    },
+          //  ],
+          //},
+          //{
+          //name:'参数集群',
+          //submenus:[
+          //  {
+          //   name:'Locators',
+          //   submenus:[
+          //       {name:'Locator1'},
+          //       {name:'Locator2'},
+          //       {name:'Locator3'},
+          //       {name:'Locator4'},
+          //   ],
+          //  },
+          //  {
+          //   name:'CacheServers',
+          //   submenus:[
+          //       {name:'CacheServers1'},
+          //       {name:'CacheServers2'},
+          //       {name:'CacheServers3'},
+          //       {name:'CacheServers4'},
+          //   ],
+          //  },
+          //],
+          //},
         {
           name:'企业集群',
           submenus:[
-            {
-             name:'Locators',
-             submenus:[
-                 {name:'Locator1'},
-                 {name:'Locator2'},
-                 {name:'Locator3'},
-                 {name:'Locator4'},
-             ],
-            },
+            //{
+            // name:'Locators',
+            // submenus:[
+            //     {name:'Locator1'},
+            //     {name:'Locator2'},
+            //     {name:'Locator3'},
+            //     {name:'Locator4'},
+            // ],
+            //},
             {
              name:'CacheServers',
              submenus:[
