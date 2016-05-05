@@ -258,9 +258,12 @@ var MetricSelect = React.createClass({
               <div className="form-group">
                 <label>指标项：</label>
                 <select className="form-control">
-                    <option value="1">CPU</option>
-                    <option value="2">内存</option>
-                    <option value="3">GC</option>
+                    <option value="1">CpuUsage</option>
+                    <option value="2">CurrentHeapSize</option>
+                    <option value="3">ClientConnectionCount</option>
+                    <option value="4">GarbageCollectionCount</option>
+                    <option value="5">JVMPauses</option>
+                    <option value="6">TotalFileDescriptorOpen</option>
                 </select>
               </div>
         );

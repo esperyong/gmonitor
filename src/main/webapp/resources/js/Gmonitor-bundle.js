@@ -25506,17 +25506,32 @@
 	                React.createElement(
 	                    'option',
 	                    { value: '1' },
-	                    'CPU'
+	                    'CpuUsage'
 	                ),
 	                React.createElement(
 	                    'option',
 	                    { value: '2' },
-	                    '内存'
+	                    'CurrentHeapSize'
 	                ),
 	                React.createElement(
 	                    'option',
 	                    { value: '3' },
-	                    'GC'
+	                    'ClientConnectionCount'
+	                ),
+	                React.createElement(
+	                    'option',
+	                    { value: '4' },
+	                    'GarbageCollectionCount'
+	                ),
+	                React.createElement(
+	                    'option',
+	                    { value: '5' },
+	                    'JVMPauses'
+	                ),
+	                React.createElement(
+	                    'option',
+	                    { value: '6' },
+	                    'TotalFileDescriptorOpen'
 	                )
 	            )
 	        );
