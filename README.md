@@ -9,6 +9,6 @@ $npm start
 ### 安装SpringMVC工程环境，并启动tomcat7
 ```
 cd /gmonitor
-$mvn install
+$mvn install -Dmaven.test.skip=true
 $mvn tomcat7:run
 ```
